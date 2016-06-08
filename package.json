@@ -43,7 +43,7 @@
   },
   "scripts": {
     "test": "npm run-script 'autodoc' && npm run-script 'jasmine' && npm run-script 'amd' && npm run-script 'promise'",
-    "autodoc": "autodoc -t --variable Lazy lazy.js",
+    "autodoc": "autodoc --language javascript -t --variable Lazy lazy.js",
     "jasmine": "jasmine-node spec/node_spec.js",
     "amd": "node spec/amd_spec.js",
     "promise": "promises-aplus-tests spec/async_handle_adapter --reporter dot --bail"
