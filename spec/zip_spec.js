@@ -30,4 +30,11 @@ describe("zip", function() {
     var up = Lazy.range(0, Infinity);
     expect(Lazy(down).zip(up).toArray()).toEqual([[5, 0], [4, 1], [3, 2], [2, 3], [1, 4]]);
   });
+
+  it("terminates with the shortest sequence", function() {
+    var one = [1,2,3,4];
+    var two = [20,30];
+    var three = Lazy.range(0, Infinity);
+    expect(Lazy(one).zip(two, three).toArray()).toEqual([[1,20,0], [2, 30, 1]]);
+  });
 });

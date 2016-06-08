@@ -1559,8 +1559,8 @@
    *
    * @examples
    * Lazy([1, 2, 2, 3, 3, 3]).uniq() // sequence: [1, 2, 3]
-   * Lazy([{ name: 'mike' }, 
-   * 	{ name: 'sarah' }, 
+   * Lazy([{ name: 'mike' },
+   * 	{ name: 'sarah' },
    * 	{ name: 'mike' }
    * ]).uniq('name')
    * // sequence: [{ name: 'mike' }, { name: 'sarah' }]
@@ -1671,15 +1671,17 @@
   ZippedSequence.prototype = new Sequence();
 
   ZippedSequence.prototype.each = function each(fn) {
-    var tails = this.zippers,
+    var iterators = this.zippers.map(function(z) { return z.getIterator(); }),
         i = 0;
-    while(tails[0].head()) {
-      var heads = tails.map(function(seq) {
-        return seq.head();
-      });
-      tails = tails.map(function(seq) {
-        return seq.tail();
-      });
+    while(true) {
+      var heads = [];
+      for (var j = 0; j < iterators.length; j++) {
+        if (iterators[j].moveNext()) {
+          heads.push(iterators[j].current());
+        } else {
+          return false;
+        }
+      }
       if (fn(heads, i++) === false) {
         return false;
       }
